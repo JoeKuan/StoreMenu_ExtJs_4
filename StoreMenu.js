@@ -6,11 +6,11 @@
  * This version is a complete rewrite and enhanced for ExtJs 4 with some of the old features removed.
  * @author Joe Kuan 
  * @docauthor Joe Kuan
- * &copy; 2013, Joe Kuan <kuan.joe@gmail.com> 
+ * Joe Kuan <kuan.joe@gmail.com> 
  *
  * #Demo and Download
  * Here are the links for the online [demo](http://joekuan.org/demos/StoreMenu_ExtJs_4/) and [github](http://github.com/JoeKuan/StoreMenu_ExtJs_4)
- * download. For usage, see [license](http://github.com/JoeKuan/StoreMenu_ExtJs_4/License).
+ * download. For usage, see [license](http://github.com/JoeKuan/StoreMenu_ExtJs_4/blob/master/License).
  *
  * #Creating &amp; Applying StoreMenu
  *
@@ -179,6 +179,7 @@ Ext.define("Ext.ux.menu.StoreMenu", {
     storeMenus: [],
 
     loaded : false,
+    loadMask : null,
 
     onMenuLoad : function() {
         if(!this.loaded || this.autoReload) {
@@ -276,7 +277,7 @@ Ext.define("Ext.ux.menu.StoreMenu", {
     setStore : function(store) {
         this.store = store;
     },
-
+    
     /**
      * @cfg smHandlers {Object} is an object holding all the submenu handler implementations.
      * Inside the object, option name is the identifier for the handler function which is the option value.
@@ -312,6 +313,7 @@ Ext.define("Ext.ux.menu.StoreMenu", {
                 }
             });
         }
+
         this.store.on('beforeload', this.onBeforeLoad, this);
         this.store.on('load', this.onLoad, this);
         return this;

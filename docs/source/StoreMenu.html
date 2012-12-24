@@ -23,11 +23,11 @@
  * This version is a complete rewrite and enhanced for ExtJs 4 with some of the old features removed.
  * @author Joe Kuan 
  * @docauthor Joe Kuan
- * &amp;copy; 2013, Joe Kuan &lt;kuan.joe@gmail.com&gt; 
+ * Joe Kuan &lt;kuan.joe@gmail.com&gt; 
  *
  * #Demo and Download
  * Here are the links for the online [demo](http://joekuan.org/demos/StoreMenu_ExtJs_4/) and [github](http://github.com/JoeKuan/StoreMenu_ExtJs_4)
- * download. For usage, see [license](http://github.com/JoeKuan/StoreMenu_ExtJs_4/License).
+ * download. For usage, see [license](http://github.com/JoeKuan/StoreMenu_ExtJs_4/blob/master/License).
  *
  * #Creating &amp;amp; Applying StoreMenu
  *
@@ -196,6 +196,7 @@ Ext.define(&quot;Ext.ux.menu.StoreMenu&quot;, {
 </span>    storeMenus: [],
 
 <span id='Ext-ux-menu-StoreMenu-property-loaded'>    loaded : false,
+</span><span id='Ext-ux-menu-StoreMenu-property-loadMask'>    loadMask : null,
 </span>
 <span id='Ext-ux-menu-StoreMenu-method-onMenuLoad'>    onMenuLoad : function() {
 </span>        if(!this.loaded || this.autoReload) {
@@ -293,7 +294,7 @@ Ext.define(&quot;Ext.ux.menu.StoreMenu&quot;, {
 <span id='Ext-ux-menu-StoreMenu-method-setStore'>    setStore : function(store) {
 </span>        this.store = store;
     },
-
+    
 <span id='Ext-ux-menu-StoreMenu-cfg-smHandlers'>    /**
 </span>     * @cfg smHandlers {Object} is an object holding all the submenu handler implementations.
      * Inside the object, option name is the identifier for the handler function which is the option value.
@@ -329,6 +330,7 @@ Ext.define(&quot;Ext.ux.menu.StoreMenu&quot;, {
                 }
             });
         }
+
         this.store.on('beforeload', this.onBeforeLoad, this);
         this.store.on('load', this.onLoad, this);
         return this;

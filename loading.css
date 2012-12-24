@@ -1,0 +1,9 @@
+.loading-indicator {
+  background: url(../extjs/resources/themes/images/default/grid/loading.gif) no-repeat;
+  color:      #555;
+  font:       bold 10px tahoma,arial,helvetica;
+  padding:     0 0 0 32px;
+  margin-top: 5px;
+  display: inline-block;
+  height: 20px;
+}
