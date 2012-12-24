@@ -9,7 +9,8 @@
  * &copy; 2013, Joe Kuan <kuan.joe@gmail.com> 
  *
  * #Demo and Download
- * Here are the links for the online [demo] and [github] download. For usage, see [license][license].
+ * Here are the links for the online [demo](http://joekuan.org/demos/StoreMenu_ExtJs_4/) and [github](http://github.com/JoeKuan/StoreMenu_ExtJs_4)
+ * download. For usage, see [license](http://github.com/JoeKuan/StoreMenu_ExtJs_4/License).
  *
  * #Creating &amp; Applying StoreMenu
  *
@@ -305,7 +306,7 @@ Ext.define("Ext.ux.menu.StoreMenu", {
                     },
                     reader: {
                         type: 'json',
-                        root: this.root || 'root',
+                        root: this.root || 'root'
                     },
                     extraParams: this.params
                 }
