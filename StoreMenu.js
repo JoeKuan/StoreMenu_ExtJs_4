@@ -312,6 +312,8 @@ Ext.define("Ext.ux.menu.StoreMenu", {
                     extraParams: this.params
                 }
             });
+        } else {
+            this.store = Ext.data.StoreManager.lookup(this.store || 'ext-empty-store');
         }
 
         this.store.on('beforeload', this.onBeforeLoad, this);
