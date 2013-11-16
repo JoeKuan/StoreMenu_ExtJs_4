@@ -80,13 +80,22 @@
  *                                           &quot;You click on item with id &quot; + item.id);
  *                      }
  *                  }),
+ *            // Need this for empty menu - no items option
+ *            showEmptyMenu: true,
  *            text: 'Menu Demo 1'
  *         }]
  *     }).show();
  * 
- * Clicking any of the menus dynamically generated will call itemsHandler. To differeniate
+ * Clicking any of the menus dynamically generated will call itemsHandler. To differentiate
  * between the menus, each menu item is created with the id option which is taken from the 
  * id field of the store
+ *
+ * #StoreMenu without *items* option
+ * The menu rendering policy has been changed since ExtJs 4.2.1 so that menu is not rendered
+ * if the {@link Ext.menu.Menu#cfg-items} option is empty. Subsequently, this will stop the
+ * store from loading, hence no dynamic menus will be displayed. In order to force the 
+ * StoreMenu to render, an option, {@link Ext.button.Button#cfg-showEmptyMenu}, 
+ * is needed to pass to the owner button in this scenario.
  * 
  * #Creating Specific Menus
  * For more specific menus, StoreMenu supports object specifier through single field name, *config*. 

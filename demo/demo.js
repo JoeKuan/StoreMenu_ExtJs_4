@@ -236,15 +236,20 @@ Ext.onReady(function() {
         height: 380,
         width: 450,
         closable: false,
-        title: 'Menu Store for ExtJs 4',
+        title: 'Menu Store for ExtJs 4 (' + Ext.getVersion().version + ')',
         tbar: [{
             menu: menu1,
+            // Important: Since 4.2.1, the rendering only occurs when the items option
+            // is not empty which won't subsequently call the store load method. 
+            // Need to use showEmptyMenu option to force it.
+            showEmptyMenu: true,
             text: 'Menu Demo 1'
         }, {
             menu: menu2,
             text: 'Menu Demo 2'
         }, {
             menu: menu3,
+            showEmptyMenu: true,
             text: 'Menu Demo 3'            
         }]
     });
