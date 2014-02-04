@@ -175,7 +175,12 @@ Ext.define("Ext.ux.menu.StoreMenu", {
         /**
          *  the field name containing the list of submenu entries in the store
          */
-        menuField: 'menu'
+        menuField: 'menu',
+        /**
+         *  the default xtype for the menu items when not set
+         *  in the {@link #parameter-configField config} parameter
+         */
+        defaultType: 'menuitem'
     },
 
     /***
@@ -216,16 +221,16 @@ Ext.define("Ext.ux.menu.StoreMenu", {
 
             Ext.each(records, function(record, index) {
 
-                var menuSettings = {};
+                var menuSettings = {
+                    xtype: this.defaultType,
+                    id: record.data[this.idField],
+                    text: record.data[this.nameField],
+                    iconCls: record.data[this.iconField],
+                    handler: this.itemsHandler
+                };
+
                 if (record.data[this.configField]) {
                     Ext.apply(menuSettings, record.data[this.configField]);
-                } else {
-                    menuSettings = {
-                        id: record.data[this.idField],
-                        text: record.data[this.nameField],
-                        iconCls: record.data[this.iconField],
-                        handler: this.itemsHandler
-                    };
                 }
 
                 if(record.data[this.menuField]) {
