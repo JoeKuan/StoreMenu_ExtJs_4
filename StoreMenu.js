@@ -4,9 +4,9 @@
  * Inspired from the Ext.ux.menu.StoreMenu for ExtJs 3 by Marco Wienkoop
  *
  * This version is a complete rewrite and enhanced for ExtJs 4 with some of the old features removed.
- * @author Joe Kuan 
+ * @author Joe Kuan
  * @docauthor Joe Kuan
- * Joe Kuan <kuan.joe@gmail.com> 
+ * Joe Kuan <kuan.joe@gmail.com>
  *
  * #Demo and Download
  * Here are the links for the online [demo](http://joekuan.org/demos/StoreMenu_ExtJs_4/) and [github](http://github.com/JoeKuan/StoreMenu_ExtJs_4)
@@ -38,8 +38,8 @@
  *
  *  Assume the file menu.php returns the following in JSON:
  *     @example
- *     { "success": true, 
- *       "root": [{ 
+ *     { "success": true,
+ *       "root": [{
  *                  "id": 1, "text": "Menu 1"
  *                 },{
  *                  "id": 2, "text": "Menu 2", "iconCls": "calendar"
@@ -47,7 +47,7 @@
  *                  "id": 3, "text": "Menu 3"
  *                 }
  *        ]
- *     } 
+ *     }
  *
  *  To produce a simple Window with store menu inside a toolbar, here is the code
  *     @example
@@ -59,7 +59,7 @@
  *            menu: Ext.create('Ext.ux.menu.StoreMenu', {
  *                      store: store,
  *                      itemsHandler: function(item, evt) {
- *                           Ext.example.msg("Store Menu", 
+ *                           Ext.example.msg("Store Menu",
  *                                           "You click on item with id " + item.id);
  *                      }
  *                  }),
@@ -68,25 +68,25 @@
  *            text: 'Menu Demo 1'
  *         }]
  *     }).show();
- * 
+ *
  * Clicking any of the menus dynamically generated will call itemsHandler. To differentiate
- * between the menus, each menu item is created with the id option which is taken from the 
+ * between the menus, each menu item is created with the id option which is taken from the
  * id field of the store
  *
  * #StoreMenu without *items* option
  * The menu rendering policy has been changed since ExtJs 4.2.1 so that menu is not rendered
  * if the {@link Ext.menu.Menu#cfg-items} option is empty. Subsequently, this will stop the
- * store from loading, hence no dynamic menus will be displayed. In order to force the 
- * StoreMenu to render, an option, {@link Ext.button.Button#cfg-showEmptyMenu}, 
+ * store from loading, hence no dynamic menus will be displayed. In order to force the
+ * StoreMenu to render, an option, {@link Ext.button.Button#cfg-showEmptyMenu},
  * is needed to pass to the owner button in this scenario.
- * 
+ *
  * #Creating Specific Menus
- * For more specific menus, StoreMenu supports object specifier through single field name, *config*. 
+ * For more specific menus, StoreMenu supports object specifier through single field name, *config*.
  * Store record with *config* field is expected to contain required options for creating menu objects, such as xtype.
  * Menus like: menucheckitem, separator can be specified through this scheme.
- * Moreover, this can be mixed with normal menu item creation which the data model definition 
+ * Moreover, this can be mixed with normal menu item creation which the data model definition
  * includes both field name schemes. The following shows an example for creating specific menus along with default
- * menu item through the store. 
+ * menu item through the store.
  *     @example
  *     Ext.define('Menu', {
  *         extend: 'Ext.data.Model',
@@ -103,29 +103,29 @@
  *
  * #Creating Submenus
  * The StoreMenu also supports submenu entries (single level only). The server will need to
- * return additional fields for including submenu entries (see menuField) and id string for 
+ * return additional fields for including submenu entries (see menuField) and id string for
  * their handlers (see smHandlers).
  * The following is what the server side should return for submenus
  *     @example
- *     { "root": [{ "id": "3A", "text": "Menu 3A", 
+ *     { "root": [{ "id": "3A", "text": "Menu 3A",
  *                  "menu": [{  "id": "3A-1", "text": "Submenu 3A-1", "smHandler": "submenu3A1" },
  *                           {  "id": "3A-2", "text": "Submenu 3A-2", "smHandler": "submenu3A2" }
  *               ]
  *     }
  * To bind with the submenu handlers, we can create the StoreMenu as follows:
- *     @example 
+ *     @example
  *     var menu3 = Ext.create('Ext.ux.menu.StoreMenu', {
  *         store: store,
  *         smHandlers: {
  *             submenu3A1: function(item) {
- *                 Ext.example.msg("Third Menu Store", "This is submenu handler specific for menu 3A-1"); 
+ *                 Ext.example.msg("Third Menu Store", "This is submenu handler specific for menu 3A-1");
  *             },
  *             submenu3A2: function(item) {
  *                 Ext.example.msg("Third Menu Store", "This is submenu handler specific for menu 3A-2");
  *             }
  *         }
  *     });
- * 
+ *
  */
 Ext.define("Ext.ux.menu.StoreMenu", {
     extend: 'Ext.menu.Menu',
@@ -149,9 +149,16 @@ Ext.define("Ext.ux.menu.StoreMenu", {
         autoReload: true,
         /**
          *  nameField is to map the field for the menu title returning from the
-         *  store.  
+         *  store.
          */
         nameField: 'text',
+
+        /**
+         *
+         * optional Field of the store
+         */
+         url: 'url',
+
         /**
          *  idField is to map the menu id entry from the store
          */
@@ -166,9 +173,9 @@ Ext.define("Ext.ux.menu.StoreMenu", {
          */
         itemsHandler: Ext.emptyFn,
         /**
-         *  configField is used for specific menu types other than 
+         *  configField is used for specific menu types other than
          *  menu item (default). The config field returned from the server
-         *  side is expected to hold all the required options to create the 
+         *  side is expected to hold all the required options to create the
          *  specific menu
          */
         configField: 'config',
@@ -179,7 +186,7 @@ Ext.define("Ext.ux.menu.StoreMenu", {
     },
 
     /***
-     * @property {Object} store 
+     * @property {Object} store
      * Data store for the menus &amp; submenus entries
      */
     store: null,
@@ -197,12 +204,12 @@ Ext.define("Ext.ux.menu.StoreMenu", {
     },
 
     updateMenuItems : function(loadedState, records) {
-        
+
         for(var i = 0; i < this.storeMenus.length; i++) {
             this.remove(this.storeMenus[i]);
         }
         this.storeMenus = [];
-        
+
         if(loadedState) {
 
             // If offset is specified, it means we have to put the
@@ -217,6 +224,13 @@ Ext.define("Ext.ux.menu.StoreMenu", {
             Ext.each(records, function(record, index) {
 
                 var menuSettings = {};
+                var patterns = {};
+                patterns.protocol = '^(http(s)?(:\/\/)){1}(www[.])?';
+                patterns.domain = '([a-zA-Z0-9-_\.])+';
+                patterns.params = '([.][a-zA-Z0-9(-|\/|=|?)?]+)';
+                var regex = new RegExp(patterns.protocol+patterns.domain+patterns.params+"$");
+
+
                 if (record.data[this.configField]) {
                     Ext.apply(menuSettings, record.data[this.configField]);
                 } else {
@@ -224,8 +238,9 @@ Ext.define("Ext.ux.menu.StoreMenu", {
                         id: record.data[this.idField],
                         text: record.data[this.nameField],
                         iconCls: record.data[this.iconField],
-                        handler: this.itemsHandler
+                        handler: this.itemsHandler,
                     };
+                        regex.test(record.data[this.url]) ? menuSettings.url = record.data[this.url] : "";
                 }
 
                 if(record.data[this.menuField]) {
@@ -237,6 +252,7 @@ Ext.define("Ext.ux.menu.StoreMenu", {
                                 id: menuitem[this.idField],
                                 text: menuitem[this.nameField],
                                 iconCls: menuitem[this.iconField],
+                                url: menuItem[this.url],
                                 handler: this.smHandlers[menuitem.smHandler]
                             });
                         }
@@ -246,13 +262,13 @@ Ext.define("Ext.ux.menu.StoreMenu", {
                 this.storeMenus.push(this.insert(this.offset + count, menuSettings));
                 count++;
             }, this)
-                
+
                 } else {
-                    this.storeMenus.push(this.insert(this.offset, 
-                                                     '<span class="loading-indicator">' + 
+                    this.storeMenus.push(this.insert(this.offset,
+                                                     '<span class="loading-indicator">' +
                                                      this.loadingText + '</span>'));
                 }
-        
+
         this.loaded = loadedState;
     },
 
@@ -263,34 +279,34 @@ Ext.define("Ext.ux.menu.StoreMenu", {
     onLoad : function(store, records) {
         this.updateMenuItems(true, records);
     },
-    
+
     /***
-     * Set a submenu handler. 
+     * Set a submenu handler.
      * @param handlerType {String} the id value for the handler function
-     * @param handler {Function} the handler implementation - See menuitem handler for function parameters 
+     * @param handler {Function} the handler implementation - See menuitem handler for function parameters
      */
     setSubMenuHandler : function(handlerType, handler) {
         this.smHandlers[handlerType] = handler;
     },
-    
+
     /**
      *  A utility method for changing parameters of the underlying
      *  JSON store. Values inside params object will overwrite the store's
      *  existing parameters with the same name
      *  @param {Object} params an object of parameters to be set in the store
-     */ 
+     */
     setParams: function(params) {
         Ext.apply(this.store.getProxy().extraParams, params);
     },
-    
+
     setStore : function(store) {
         this.store = store;
     },
-    
+
     /**
      * @cfg smHandlers {Object} is an object holding all the submenu handler implementations.
      * Inside the object, option name is the identifier for the handler function which is the option value.
-     * (See the [submenu section] (#submenu) for example) 
+     * (See the [submenu section] (#submenu) for example)
      */
     smHandlers: {},
 
@@ -329,4 +345,3 @@ Ext.define("Ext.ux.menu.StoreMenu", {
     }
 
 });
-
